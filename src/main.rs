@@ -1,12 +1,19 @@
+use std::env;
+
+const DEFAULT_RANGE_END: i32 = 100;
 const FIZZ: &str = "Fizz";
 const BUZZ: &str = "Buzz";
 
 fn main() {
-    for number in 1..=100 {
+    let range_end = get_range_end_from_command_line(env::args().collect());
+
+    for number in 1..=range_end {
         println!("{}", fizz_buzz_using_if_then_else(number));
     }
 
-    for number in 1..=100 {
+    println!();
+
+    for number in 1..=range_end {
         println!("{}", fizz_buzz_using_match(number));
     }
 }
@@ -30,6 +37,21 @@ fn fizz_buzz_using_match(number: i32) -> String {
         number if number % 5 == 0 => format!("{}", BUZZ),
         _ => format!("{}", number)
     }
+}
+
+fn get_range_end_from_command_line(args: Vec<String>) -> i32 {
+    let mut range_end = DEFAULT_RANGE_END;
+    if args.len() == 2 {
+        match args[1].parse::<i32>() {
+            Ok(parsed_number) => range_end = parsed_number,
+            Err(error) => {
+                println!("***ERROR*** Unable to convert '{}' to a number: {error}", args[1]);
+                println!("Using default: {}", DEFAULT_RANGE_END);
+            }
+        }
+    }
+
+    return range_end;
 }
 
 #[cfg(test)]
@@ -67,5 +89,24 @@ mod tests {
     #[test]
     fn test_fizz_buzz_using_match() {
         verify_fizz_buzz_function(fizz_buzz_using_match);
+    }
+
+    #[test]
+    fn test_get_range_end_from_command_line() {
+        // Range end not specified uses default
+        let mut args = vec!["executable".to_string()];
+        assert_eq!(get_range_end_from_command_line(args), DEFAULT_RANGE_END);
+
+        // Too many args provided uses default
+        args = vec!["executable".to_string(), "10".to_string(), "20".to_string()];
+        assert_eq!(get_range_end_from_command_line(args), DEFAULT_RANGE_END);
+
+        // Valid (integer) range end provided returns provided range end
+        args = vec!["executable".to_string(), "15".to_string()];
+        assert_eq!(get_range_end_from_command_line(args), 15);
+
+        // Invalid (non-integer chars) range end uses default
+        args = vec!["executable".to_string(), "1A".to_string()];
+        assert_eq!(get_range_end_from_command_line(args), DEFAULT_RANGE_END);
     }
 }
