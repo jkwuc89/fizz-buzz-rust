@@ -3,6 +3,7 @@ use std::env;
 const DEFAULT_RANGE_END: i32 = 100;
 const FIZZ: &str = "Fizz";
 const BUZZ: &str = "Buzz";
+const FIZZBUZZ: &str = "FizzBuzz";
 
 fn main() {
     let range_end = get_range_end_from_command_line(env::args().collect());
@@ -20,22 +21,22 @@ fn main() {
 
 fn fizz_buzz_using_if_then_else(number: i32) -> String {
     return if number % 15 == 0 {
-        format!("{0}{1}", FIZZ, BUZZ)
+        FIZZBUZZ.to_string()
     } else if number % 3 == 0 {
-        format!("{}", FIZZ)
+        FIZZ.to_string()
     } else if number % 5 == 0 {
-        format!("{}", BUZZ)
+        BUZZ.to_string()
     } else {
-        format!("{}", number)
+        number.to_string()
     }
 }
 
 fn fizz_buzz_using_match(number: i32) -> String {
     return match number {
-        number if number % 15 == 0 => format!("{0}{1}", FIZZ, BUZZ),
-        number if number % 3 == 0 => format!("{}", FIZZ),
-        number if number % 5 == 0 => format!("{}", BUZZ),
-        _ => format!("{}", number)
+        number if number % 15 == 0 => FIZZBUZZ.to_string(),
+        number if number % 3 == 0 => FIZZ.to_string(),
+        number if number % 5 == 0 => BUZZ.to_string(),
+        _ => number.to_string()
     }
 }
 
@@ -76,9 +77,9 @@ mod tests {
         assert_eq!(fizz_buzz_fn(20), BUZZ);
         assert_eq!(fizz_buzz_fn(25), BUZZ);
 
-        assert_eq!(fizz_buzz_fn(15), format!("{0}{1}", FIZZ, BUZZ));
-        assert_eq!(fizz_buzz_fn(30), format!("{0}{1}", FIZZ, BUZZ));
-        assert_eq!(fizz_buzz_fn(45), format!("{0}{1}", FIZZ, BUZZ));
+        assert_eq!(fizz_buzz_fn(15), FIZZBUZZ);
+        assert_eq!(fizz_buzz_fn(30), FIZZBUZZ);
+        assert_eq!(fizz_buzz_fn(45), FIZZBUZZ);
     }
 
     #[test]
