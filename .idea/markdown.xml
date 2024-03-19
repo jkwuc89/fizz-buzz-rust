@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MarkdownSettings">
+    <option name="customStylesheetText" value="body {&#10;    background-color: white;&#10;}&#10;p, h1, h2, h3, h4, h5, h6, code, ol, ul {&#10;    color: black; !important&#10;}&#10;" />
+    <enabledExtensions>
+      <entry key="MermaidLanguageExtension" value="false" />
+      <entry key="PlantUMLLanguageExtension" value="false" />
+    </enabledExtensions>
+    <option name="fontSize" value="20" />
+  </component>
+</project>
